@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 var koa = require('koa');
 var sha1 = require('sha1');
