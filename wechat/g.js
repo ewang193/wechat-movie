@@ -77,7 +77,7 @@ var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
 var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 var api = {
-    accessToken: prefix + 'token?grant_type=client_credential&appid=APPID&secret=APPSECRET'
+    accessToken: prefix + 'token?grant_type=client_credential'
 }
 
 //构造函数,假设有个文件中存着老的旧的票据信息，要先读一下这个文件，判断票据是否过期，如果过期，重新向微信服务器获取一次，然后把新的票据信息重新写入到这个文件中
@@ -132,7 +132,7 @@ Wechat.prototype.updateAccessToken = function(){
     var appSecret = this.appSecret;
     console.log("appID:", appID);
     console.log("appSecret:", appSecret);
-    var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret;
+    var url = prefix + api.accessToken + '&appid=' + appID + '&secret=' + appSecret;
 
     return new Promise(function(resolve, reject){
         request({url: url, json: true}).then(function(response){
