@@ -135,6 +135,7 @@ Wechat.prototype.updateAccessToken = function(){
     return new Promise(function(resolve, reject){
         request({url: url, json: true}).then(function(response){
             var data = response[1];
+            console.log("data:", JSON.stringify(data));
             var now = (new Date().getTime());
             var expires_in = now + (data.expires_in - 20) * 1000;    //data.expires_in是票据返回结果的时间
             data.expires_in = expires_in;   //把新的有效票据的时间赋值给票据对象
