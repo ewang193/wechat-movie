@@ -133,6 +133,7 @@ Wechat.prototype.updateAccessToken = function(){
     console.log("appID:", appID);
     console.log("appSecret:", appSecret);
     var url = prefix + api.accessToken + '&appid=' + appID + '&secret=' + appSecret;
+    console.log('url:', url);
 
     return new Promise(function(resolve, reject){
         request({url: url, json: true}).then(function(response){
