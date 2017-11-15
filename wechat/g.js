@@ -72,7 +72,7 @@
 
 'use strict';
 
-var koa = require('koa');
+var sha1 = require('sha1');
 
 module.exports = function(opts){
     return function *(next){
