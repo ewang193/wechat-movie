@@ -83,6 +83,7 @@ module.exports = function(opts){
     return function *(next){  //加密的逻辑，第一次的时候微信服务器向我们发起get请求，验证开发者的身份，
         console.log(this.query);
 
+        var that = this;
         var token = opts.token;
         var signature = this.query.signature;
         var nonce = this.query.nonce;
@@ -115,7 +116,29 @@ module.exports = function(opts){
             var content = yield util.parseXMLAsync(data);    //把原始的xml数据传给parseXMLAsync方法，返回一个解析后的xml对象
             console.log(content);
 
-            console.log(data.toString());
+            // console.log(data.toString());
+
+            var message = util.formatMessage(content.xml)   //xml数据的格式化
+            console.log(message);
+
+            if(message.MsgType === 'event') {
+                if(message.Event === 'subscribe') {
+                    var now = new Date().getTime();
+
+                    that.status = 200;
+                    that.type = 'application/xml';
+                    that.body = '<xml>' +
+                        '<ToUserName><![CDATA['+ message.FromUserName +']]></ToUserName>' +
+                        '<FromUserName><![CDATA['+ message.ToUserName +']]></FromUserName>' +
+                        '<CreateTime>'+ now +'</CreateTime>' +
+                        '<MsgType><![CDATA[text]]></MsgType>' +
+                        '<Content><![CDATA[Hi, Imooc movie 童鞋!]]></Content>' +
+                        '</xml>'
+
+                    return;
+                }
+            }
+
         }
     }
 };
