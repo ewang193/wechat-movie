@@ -25,7 +25,7 @@ function Wechat(opts){
             }
 
             if(that.isValidAccessToken(data)){
-                Promise.resolve(data);
+                return Promise.resolve(data);
             } else {
                 return that.updateAccessToken();
             }
