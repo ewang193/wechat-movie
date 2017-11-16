@@ -105,7 +105,7 @@ module.exports = function(opts){
                 return false
             }
 
-            var data = yield getRawbody(this.req, {   //通过yield关键字，拿到了post过来的原始的xml数据，
+            var data = yield getRawBody(this.req, {   //通过yield关键字，拿到了post过来的原始的xml数据，
                 length: this.length,
                 limit: '1mb',
                 encoding: this.charset
