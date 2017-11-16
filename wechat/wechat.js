@@ -31,6 +31,7 @@ function Wechat(opts){
             }
         })
         .then(function(data){
+            console.log("data:", data);
             that.access_token = data.access_token;
             that.expires_in = data.expires_in;
 
