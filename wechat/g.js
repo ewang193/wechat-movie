@@ -73,86 +73,13 @@
 'use strict';
 
 var sha1 = require('sha1');
-var Promise = require('bluebird');
-var request = Promise.promisify(require('request'));
-var prefix = 'https://api.weixin.qq.com/cgi-bin/';
-var api = {
-    accessToken: prefix + 'token?grant_type=client_credential'
-}
-
-//构造函数,假设有个文件中存着老的旧的票据信息，要先读一下这个文件，判断票据是否过期，如果过期，重新向微信服务器获取一次，然后把新的票据信息重新写入到这个文件中
-//票据的读出与写入
-function Wechat(opts){
-    var that = this;
-    this.appID = opts.appID;
-    this.appSecret = opts.appSecret;
-    this.getAccessToken = opts.getAccessToken;
-    this.saveAccessToken = opts.saveAccessToken;
-
-    this.getAccessToken()
-        .then(function(data){
-            try {
-                data = JSON.parse(data);
-            } catch(e){  //获取异常，文件不存在或者不合法，应该再去更新一下票据
-                return that.updateAccessToken(data);
-            }
-
-            if(data.isValidAccessToken(data)){
-                Promise.resolve(data);
-            } else {
-                return that.updateAccessToken();
-            }
-        })
-        .then(function(data){
-            that.access_token = data.access_token;
-            that.expires_in = data.expires_in;
-
-            that.saveAccessToken(data);
-        })
-}
-
-Wechat.prototype.isValidAccessToken = function(data){
-    if(!data || !data.access_token || !data.expires_in) {
-        return false;
-    }
-
-    var access_token = data.access_token;
-    var expires_in = data.expires_in;
-    var now = (new Date().getTime());
-
-    if(now < expires_in) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-Wechat.prototype.updateAccessToken = function(){
-    var appID = this.appID;
-    var appSecret = this.appSecret;
-    console.log("appID:", appID);
-    console.log("appSecret:", appSecret);
-    var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret;
-    console.log('url:', url);
-
-    return new Promise(function(resolve, reject){
-        request({url: url, json: true}).then(function(response){
-            var data = response[0];
-            console.log("data:", JSON.stringify(data));
-            var now = (new Date().getTime());
-            var expires_in = now + (data.expires_in - 20) * 1000;    //data.expires_in是票据返回结果的时间
-            data.expires_in = expires_in;   //把新的有效票据的时间赋值给票据对象
-
-            resolve(data);
-        })
-    })
-
-}
+var getRawBody = require('raw-body');
+var Wechat = require('./wechat');
 
 module.exports = function(opts){
-    var wechat = new Wechat(opts);
+    var wechat = new Wechat(opts);      //初始化了Wechat，拿到了一个实例
 
-    return function *(next){
+    return function *(next){  //加密的逻辑，第一次的时候微信服务器向我们发起get请求，验证开发者的身份，
         console.log(this.query);
 
         var token = opts.token;
@@ -165,10 +92,26 @@ module.exports = function(opts){
         var sha = sha1(str);
         // console.log("sha:", sha);
 
-        if(sha === signature) {
-            this.body = echostr + '';
-        } else {
-            this.body = 'wrong!' + 'str:' + str + ', sha:' + sha + ', signature:' + signature;
+        if(this.method === 'GET') { //加上一个请求方法的判断
+            if (sha === signature) {
+                this.body = echostr + '';
+            } else {
+                this.body = 'wrong!' + 'str:' + str + ', sha:' + sha + ', signature:' + signature;
+            }
+        } else if(this.method === 'POST'){  //需要获取post过来的原始数据，这里不是json，而是xml
+                                            //通过raw-body模块，把这个this上的request对象，也就是http模块中的request对象，去拼装它的数据，最终可以拿到一个buffer的xml数据
+            if (sha !== signature) {
+                this.body = 'wrong!' + 'str:' + str + ', sha:' + sha + ', signature:' + signature;
+                return false
+            }
+
+            var data = yield getRawbody(this.req, {   //通过yield关键字，拿到了post过来的原始的xml数据，
+                length: this.length,
+                limit: '1mb',
+                encoding: this.charset
+            })
+
+            console.log(data.toString());
         }
     }
 };
