@@ -121,24 +121,23 @@ module.exports = function(opts){
             var message = util.formatMessage(content.xml)   //xml数据的格式化
             console.log(message);
 
-            if(message.MsgType === 'event') {
-                if(message.Event === 'subscribe') {
-                    var now = new Date().getTime();
+            // if(message.MsgType === 'event') {
+            //     if(message.Event === 'subscribe') {
+            //         var now = new Date().getTime();
+            //
+            //         that.status = 200;
+            //         that.type = 'application/xml';
+            //         that.body = xml;
+            //
+            //         return;
+            //     }
+            // }
 
-                    that.status = 200;
-                    that.type = 'application/xml';
-                    that.body = '<xml>' +
-                        '<ToUserName><![CDATA['+ message.FromUserName +']]></ToUserName>' +
-                        '<FromUserName><![CDATA['+ message.ToUserName +']]></FromUserName>' +
-                        '<CreateTime>'+ now +'</CreateTime>' +
-                        '<MsgType><![CDATA[text]]></MsgType>' +
-                        '<Content><![CDATA[Hi, Imooc movie 童鞋!]]></Content>' +
-                        '</xml>'
+            this.weixin = message;
 
-                    return;
-                }
-            }
+            yield handler.call(this, next);
 
+            wechat.reply.call(this);
         }
     }
 };
