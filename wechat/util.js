@@ -65,8 +65,8 @@ exports.tpl = function(content, message) {
     info.content = content;
     info.createTime = new Date().getTime();
     info.msgType = type;
-    info.toUserName = fromUsername;
-    info.fromUserName = toUsername;
+    info.toUserName = fromUserName;
+    info.fromUserName = toUserName;
 
     return tpl.compiled(info);
 }
