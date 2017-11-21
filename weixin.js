@@ -31,19 +31,20 @@ exports.reply = function* (next) {
             reply = '天下第二吃豆腐';
         } else if(content === '3') {
             reply = '天下第三吃仙丹';
-        } else if(content === '4') {
-            reply = [{
-                title: '技术改变世界',
-                description: '只是一个描述而已',
-                picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1441184110/assets/images/Mask-min.png',
-                url: 'https://github.com'
-            },{
-                title: 'Nodejs开发微信',
-                description: '只是一个描述而已',
-                picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1431337192/index-img2_fvzeow.png',
-                url: 'https://nodejs.org/'
-            }]
         }
+        // else if(content === '4') {
+        //     reply = [{
+        //         title: '技术改变世界',
+        //         description: '只是一个描述而已',
+        //         picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1441184110/assets/images/Mask-min.png',
+        //         url: 'https://github.com'
+        //     },{
+        //         title: 'Nodejs开发微信',
+        //         description: '只是一个描述而已',
+        //         picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1431337192/index-img2_fvzeow.png',
+        //         url: 'https://nodejs.org/'
+        //     }]
+        // }
 
         this.body = reply;
     }
