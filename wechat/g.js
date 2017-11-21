@@ -78,7 +78,7 @@ var Wechat = require('./wechat');
 var util = require('./util');
 
 module.exports = function(opts, handler){
-    // var wechat = new Wechat(opts);      //初始化了Wechat，拿到了一个实例
+    var wechat = new Wechat(opts);      //初始化了Wechat，拿到了一个实例
 
     return function *(next){  //加密的逻辑，第一次的时候微信服务器向我们发起get请求，验证开发者的身份，
         console.log(this.query);
