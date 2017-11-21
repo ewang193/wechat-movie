@@ -32,7 +32,26 @@ exports.reply = function* (next) {
         } else if(content === '3') {
             reply = '天下第三吃仙丹';
         }
-        else if(content === '4') {
+        // else if(content === '4') {
+        //     reply = [{
+        //         Title: '技术改变世界',
+        //         Description: '只是一个描述而已',
+        //         PicUrl: 'http://res.cloudinary.com/moveha/image/upload/v1441184110/assets/images/Mask-min.png',
+        //         Url: 'https://github.com'
+        //     },{
+        //         Title: 'Nodejs开发微信',
+        //         Description: '只是一个描述而已',
+        //         PicUrl: 'http://res.cloudinary.com/moveha/image/upload/v1431337192/index-img2_fvzeow.png',
+        //         Url: 'https://nodejs.org/'
+        //     }]
+        // }
+
+
+        this.body = reply;
+    } else if(message.MsgType === 'article') {
+        var content = message.Content;
+        var reply = '额，你说的 ' + message.Content + ' 太复杂了';
+        if(content === '4'){
             reply = [{
                 Title: '技术改变世界',
                 Description: '只是一个描述而已',
@@ -45,8 +64,6 @@ exports.reply = function* (next) {
                 Url: 'https://nodejs.org/'
             }]
         }
-
-
         this.body = reply;
     }
     yield next
