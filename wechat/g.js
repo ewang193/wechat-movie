@@ -78,9 +78,9 @@ var Wechat = require('./wechat');
 var util = require('./util');
 
 module.exports = function(opts, handler){
-    var wechat = new Wechat(opts);      //初始化了Wechat，拿到了一个实例
+    var wechat = new Wechat(opts);
 
-    return function *(next){  //加密的逻辑，第一次的时候微信服务器向我们发起get请求，验证开发者的身份，
+    return function *(next){
         console.log(this.query);
 
         var that = this;
@@ -94,31 +94,31 @@ module.exports = function(opts, handler){
         var sha = sha1(str);
         // console.log("sha:", sha);
 
-        if(this.method === 'GET') { //加上一个请求方法的判断
+        if(this.method === 'GET') {
             if (sha === signature) {
                 this.body = echostr + '';
             } else {
                 this.body = 'wrong!' + 'str:' + str + ', sha:' + sha + ', signature:' + signature;
             }
-        } else if(this.method === 'POST'){  //需要获取post过来的原始数据，这里不是json，而是xml
-                                            //通过raw-body模块，把这个this上的request对象，也就是http模块中的request对象，去拼装它的数据，最终可以拿到一个buffer的xml数据
+        } else if(this.method === 'POST'){
+
             if (sha !== signature) {
                 this.body = 'wrong!' + 'str:' + str + ', sha:' + sha + ', signature:' + signature;
                 return false
             }
 
-            var data = yield getRawBody(this.req, {   //通过yield关键字，拿到了post过来的原始的xml数据，
+            var data = yield getRawBody(this.req, {
                 length: this.length,
                 limit: '1mb',
                 encoding: this.charset
             })
 
-            var content = yield util.parseXMLAsync(data);    //把原始的xml数据传给parseXMLAsync方法，返回一个解析后的xml对象
+            var content = yield util.parseXMLAsync(data);
             console.log(content);
 
             // console.log(data.toString());
 
-            var message = util.formatMessage(content.xml)   //xml数据的格式化
+            var message = util.formatMessage(content.xml)
             console.log(message);
 
             // if(message.MsgType === 'event') {
@@ -134,6 +134,7 @@ module.exports = function(opts, handler){
             // }
 
             this.weixin = message;
+
 
             yield handler.call(this, next);
 
