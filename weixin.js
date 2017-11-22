@@ -32,26 +32,7 @@ exports.reply = function* (next) {
         } else if(content === '3') {
             reply = '天下第三吃仙丹';
         }
-        // else if(content === '4') {
-        //     reply = [{
-        //         Title: '技术改变世界',
-        //         Description: '只是一个描述而已',
-        //         PicUrl: 'http://res.cloudinary.com/moveha/image/upload/v1441184110/assets/images/Mask-min.png',
-        //         Url: 'https://github.com'
-        //     },{
-        //         Title: 'Nodejs开发微信',
-        //         Description: '只是一个描述而已',
-        //         PicUrl: 'http://res.cloudinary.com/moveha/image/upload/v1431337192/index-img2_fvzeow.png',
-        //         Url: 'https://nodejs.org/'
-        //     }]
-        // }
-
-
-        this.body = reply;
-    } else if(message.MsgType === 'article') {
-        var content = message.Content;
-        var reply = '额，你说的 ' + message.Content + ' 太复杂了';
-        if(content === '4'){
+        else if(content === '4') {
             reply = [{
                 Title: '技术改变世界',
                 Description: '只是一个描述而已',
@@ -63,8 +44,37 @@ exports.reply = function* (next) {
                 PicUrl: 'http://res.cloudinary.com/moveha/image/upload/v1431337192/index-img2_fvzeow.png',
                 Url: 'https://nodejs.org/'
             }]
+        }else if(content === '5') {
+            //首先上传一张图片，通过yield来调用wechat API上的uploadMaterial
+            //这里wechatApi还没有，这里需要初始化这个API
+            var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg');
+
+            //构建一个reply
+            reply = {
+                type: 'image',
+                mediaId: data.mediaId
+            }
         }
+
         this.body = reply;
     }
+    // else if(message.MsgType === 'article') {
+    //     var content = message.Content;
+    //     var reply = '额，你说的 ' + message.Content + ' 太复杂了';
+    //     if(content === '4'){
+    //         reply = [{
+    //             Title: '技术改变世界',
+    //             Description: '只是一个描述而已',
+    //             PicUrl: 'http://res.cloudinary.com/moveha/image/upload/v1441184110/assets/images/Mask-min.png',
+    //             Url: 'https://github.com'
+    //         },{
+    //             Title: 'Nodejs开发微信',
+    //             Description: '只是一个描述而已',
+    //             PicUrl: 'http://res.cloudinary.com/moveha/image/upload/v1431337192/index-img2_fvzeow.png',
+    //             Url: 'https://nodejs.org/'
+    //         }]
+    //     }
+    //     this.body = reply;
+    // }
     yield next
 }
