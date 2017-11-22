@@ -114,6 +114,7 @@ Wechat.prototype.uploadMaterial = function(type, filepath){
     return new Promise(function(resolve, reject){
         that.fetchAccessToken()
             .then(function(data){
+                console.log('data:', JSON.stringify(data));
                 var url = api.upload + 'access_token=' + data.access_token + '&type=' + type;
 
                 //通过request发起一个请求
