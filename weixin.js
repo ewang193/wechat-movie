@@ -102,5 +102,5 @@ exports.reply = function* (next) {
     //     }
     //     this.body = reply;
     // }
-    yield next
+    yield next;
 }
