@@ -59,7 +59,7 @@ exports.reply = function* (next) {
 
             //构建一个reply
             reply = {
-                type: 'image',
+                // type: 'image',
                 MediaId: data.media_id
             }
         }
