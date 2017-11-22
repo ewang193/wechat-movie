@@ -121,7 +121,7 @@ Wechat.prototype.uploadMaterial = function(type, filepath){
                 request({method: 'POST', url: url, formData: form, json: true}).then(function(response){
 
                     console.log('response:', JSON.stringify(response));
-                    var _data = response[1];
+                    var _data = response.body;
 
                     if(_data){
                         resolve(_data);
