@@ -66,24 +66,24 @@ exports.reply = function* (next) {
 
         this.body = reply;
     }
-    else if(message.MsgType === 'image'){
-        var content = message.Content;
-        var reply = '额，你说的 ' + message.Content + ' 太复杂了';
-        if(content === '5') {
-            //首先上传一张图片，通过yield来调用wechat API上的uploadMaterial
-            //这里wechatApi还没有，这里需要初始化这个API
-            var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg');
-            console.log('after data:', JSON.stringify(data));
-
-            //构建一个reply
-            reply = {
-                type: 'image',
-                MediaId: data.media_id
-            }
-        }
-        this.body = reply;
-
-    }
+    // else if(message.MsgType === 'image'){
+    //     var content = message.Content;
+    //     var reply = '额，你说的 ' + message.Content + ' 太复杂了';
+    //     if(content === '5') {
+    //         //首先上传一张图片，通过yield来调用wechat API上的uploadMaterial
+    //         //这里wechatApi还没有，这里需要初始化这个API
+    //         var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg');
+    //         console.log('after data:', JSON.stringify(data));
+    //
+    //         //构建一个reply
+    //         reply = {
+    //             type: 'image',
+    //             MediaId: data.media_id
+    //         }
+    //     }
+    //     this.body = reply;
+    //
+    // }
     // else if(message.MsgType === 'article') {
     //     var content = message.Content;
     //     var reply = '额，你说的 ' + message.Content + ' 太复杂了';
