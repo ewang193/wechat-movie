@@ -53,11 +53,12 @@ exports.reply = function* (next) {
             //首先上传一张图片，通过yield来调用wechat API上的uploadMaterial
             //这里wechatApi还没有，这里需要初始化这个API
             var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg');
+            console.log('after data:', JSON.stringify(data));
 
             //构建一个reply
             reply = {
                 type: 'image',
-                mediaId: data.mediaId
+                MediaId: data.mediaId
             }
         }
 
