@@ -1,5 +1,10 @@
 'use strict';
 
+var config = require('./config');
+var Wechat = require('./wechat/wechat');
+
+var wechatApi = new Wechat(config.wechat);
+
 exports.reply = function* (next) {
     var message = this.weixin;
 
