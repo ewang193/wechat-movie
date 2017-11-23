@@ -89,7 +89,7 @@ exports.reply = function* (next) {
                 type:'music',
                 title: '回复音乐内容',
                 description: '放松一下',
-                musicUrl: 'http://play.baidu.com/?__m=mboxCtrl.playSong&__a=123339030&__o=song/123339030||playBtn&fr=altg_new3||www.baidu.com#',
+                musicUrl: 'http://mpge.5nd.com/2015/2015-9-12/66325/1.mp3',
                 thumbMediaId: data.media_id
             }
         }
