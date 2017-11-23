@@ -92,7 +92,30 @@ exports.reply = function* (next) {
                 musicUrl: 'http://mpge.5nd.com/2015/2015-9-12/66325/1.mp3',
                 thumbMediaId: data.media_id
             }
+        } else if(content === '8') {
+            //首先上传一张图片，通过yield来调用wechat API上的uploadMaterial
+            //这里wechatApi还没有，这里需要初始化这个API
+            var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg', {type: 'image'});
+
+            //构建一个reply
+            reply = {
+                // type: 'image',
+                mediaId: data.media_id
+            }
+        } else if(content === '9') {
+            //首先上传一张图片，通过yield来调用wechat API上的uploadMaterial
+            //这里wechatApi还没有，这里需要初始化这个API
+            var data = yield wechatApi.uploadMaterial('video', __dirname + '/6.mp4', {type: 'video', description: '{"title": "Really a nice place", "instroduction": "Never think it so easy"}'});
+
+            //构建一个reply
+            reply = {
+                type: 'video',
+                title: '回复视频内容',
+                description: '打个篮球玩玩',
+                mediaId: data.media_id
+            }
         }
+        
         this.body = reply;
     }
     // else if(message.MsgType === 'image'){
