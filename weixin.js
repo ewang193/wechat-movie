@@ -114,6 +114,37 @@ exports.reply = function* (next) {
                 description: '打个篮球玩玩',
                 mediaId: data.media_id
             }
+        } else if(content === '10') {
+            var media = {
+                articles: [{
+                    title: 'tututu',
+                    thumbMediaId: picData.media_id,
+                    author: 'Elina',
+                    digest: '没有摘要',
+                    show_cover_pic: 1,
+                    content: '没有内容',
+                    content_source_url: 'https://github.com'
+                }]
+            }
+
+            data = yield wechatApi.uploadMaterial('news', media, {});
+            data = yield wechatApi.fetchMaterial(data.media_id);
+
+            console.log('data for fech material:', data);
+
+            var item = data.news_item;
+            var news = [];
+
+            item.forEach(function (item) {
+                news.push({
+                    title: item.title,
+                    decription: item.digest,
+                    picUrl: picData.url,
+                    url: item.url
+                })
+            })
+
+            reply = news;
         }
 
         this.body = reply;
