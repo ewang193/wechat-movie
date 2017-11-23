@@ -118,7 +118,7 @@ exports.reply = function* (next) {
             var media = {
                 articles: [{
                     title: 'tututu',
-                    thumbMediaId: picData.media_id,
+                    thumbMediaId: data.media_id,
                     author: 'Elina',
                     digest: '没有摘要',
                     show_cover_pic: 1,
