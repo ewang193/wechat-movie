@@ -54,6 +54,10 @@ exports.reply = function* (next) {
         }else if(content === '5') {
             //首先上传一张图片，通过yield来调用wechat API上的uploadMaterial
             //这里wechatApi还没有，这里需要初始化这个API
+
+            // <Image>
+            // <MediaId><![CDATA[media_id]]></MediaId>
+            // </Image>
             var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg');
             console.log('after data:', JSON.stringify(data));
 
@@ -65,6 +69,12 @@ exports.reply = function* (next) {
         }else if(content === '6') {
             var data = yield wechatApi.uploadMaterial('video', __dirname + '/6.mp4');
 
+            // <Video>
+            // <MediaId><![CDATA[media_id]]></MediaId>
+            // <Title><![CDATA[title]]></Title>
+            // <Description><![CDATA[description]]></Description>
+            // </Video>
+
             reply = {
                 type: 'video',
                 title: '回复视频内容',
@@ -72,8 +82,17 @@ exports.reply = function* (next) {
                 mediaId: data.media_id
             }
             console.log(reply);
-        }
+        } else if(content === '7') {    //回复一段音乐，对于音乐是不需要上传什么素材的，需要一个封面图
+            var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg');
 
+            reply = {
+                type:'music',
+                title: '回复音乐内容',
+                description: '放松一下',
+                musicUrl: 'http://play.baidu.com/?__m=mboxCtrl.playSong&__a=123339030&__o=song/123339030||playBtn&fr=altg_new3||www.baidu.com#',
+                thumbMediaId: data.media_id
+            }
+        }
         this.body = reply;
     }
     // else if(message.MsgType === 'image'){
