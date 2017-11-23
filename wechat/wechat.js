@@ -170,7 +170,8 @@ Wechat.prototype.uploadMaterial = function(type, material, permanent){
                 } else {
                     options.formData = form;
                 }
-                request({method: 'POST', url: url, formData: form, json: true}).then(function(response){
+
+                request(options).then(function(response){
                     var _data = response.body;
 
                     if(_data){
@@ -187,7 +188,7 @@ Wechat.prototype.uploadMaterial = function(type, material, permanent){
 
 Wechat.prototype.fetchMaterial = function(mediaId, type, permanent){
     var that = this;
-    var form = {};
+    // var form = {};
     var fetchUrl = api.temporary.fetch;
 
     if(permanent) {
@@ -199,11 +200,40 @@ Wechat.prototype.fetchMaterial = function(mediaId, type, permanent){
             .then(function(data){
                 var url = fetchUrl + 'access_token=' + data.access_token + '&media_id=' + mediaId;
 
-                if(!permanent && type === 'video') {    //不是永久类型，需要追加type
-                    url = url.replace('https://', 'http://');
+                var options = {method: 'POST', url: url, json: true};
+                var form = {};
+                if(permanent) {
+                    form.media_id = mediaId;
+                    form.access_token = data.access_token;
+                    options.body = form;
+                } else {
+                    if(type === 'video'){
+                        url = url.replace('https://', 'http://');
+                    }
+                    url += '&media_id=' + mediaId
                 }
 
-                resolve(url);
+                if(type === 'news' || type === 'video') {
+                    request(options).then(function(response){
+                        var _data = response[1];
+
+                        if(_data) {
+                            resolve(_data);
+                        } else {
+                            throw new Error('fetch material fails');
+                        }
+                    }).catch(function(err){
+                        reject(err);
+                    })
+                } else {
+                    resolve(url);
+                }
+
+                // var form = {
+                //     media_id: mediaId,
+                //     access_token: data.access_token
+                // }
+
             })
     })
 }

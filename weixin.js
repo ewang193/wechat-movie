@@ -120,7 +120,7 @@ exports.reply = function* (next) {
             var media = {
                 articles: [{
                     title: 'tututu',
-                    thumbMediaId: picData.media_id,
+                    thumb_media_id: picData.media_id,
                     author: 'Elina',
                     digest: '没有摘要',
                     show_cover_pic: 1,
@@ -130,14 +130,14 @@ exports.reply = function* (next) {
             }
 
             data = yield wechatApi.uploadMaterial('news', media, {});
-            data = yield wechatApi.fetchMaterial(data.media_id);
+            data = yield wechatApi.fetchMaterial(data.media_id, 'news', {});
 
             console.log('data for fech material:', data);
 
-            var item = data.news_item;
+            var items = data.news_item;
             var news = [];
 
-            item.forEach(function (item) {
+            items.forEach(function (item) {
                 news.push({
                     title: item.title,
                     decription: item.digest,
