@@ -67,6 +67,8 @@ exports.reply = function* (next) {
 
             reply = {
                 type: 'video',
+                title: '回复视频内容',
+                description: '打个篮球玩玩',
                 mediaId: data.media_id
             }
             console.log(reply);
