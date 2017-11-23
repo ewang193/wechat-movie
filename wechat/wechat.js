@@ -190,6 +190,7 @@ Wechat.prototype.fetchMaterial = function(mediaId, type, permanent){
     var form = {};
     var fetchUrl = api.temporary.fetch;
 
+    if(permanent) {
         fetchUrl = api.permanent.fetch;
     }
 
@@ -198,7 +199,7 @@ Wechat.prototype.fetchMaterial = function(mediaId, type, permanent){
             .then(function(data){
                 var url = fetchUrl + 'access_token=' + data.access_token + '&media_id=' + mediaId;
 
-                if(!permanent && type === 'video') {
+                if(!permanent && type === 'video') {    //不是永久类型，需要追加type
                     url = url.replace('https://', 'http://');
                 }
 
