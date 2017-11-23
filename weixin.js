@@ -115,10 +115,12 @@ exports.reply = function* (next) {
                 mediaId: data.media_id
             }
         } else if(content === '10') {
+            var picData = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg', {});
+
             var media = {
                 articles: [{
                     title: 'tututu',
-                    thumbMediaId: data.media_id,
+                    thumbMediaId: picData.media_id,
                     author: 'Elina',
                     digest: '没有摘要',
                     show_cover_pic: 1,
