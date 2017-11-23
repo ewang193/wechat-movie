@@ -111,7 +111,7 @@ Wechat.prototype.fetchAccessToken = function(data) {
         })
 }
 
-Wechat.prototype.uploadMaterial = function(type, filepath, permanent){
+Wechat.prototype.uploadMaterial = function(type, material, permanent){
     var that = this;
     var form = {};
     var uploadUrl = api.temporary.upload;
