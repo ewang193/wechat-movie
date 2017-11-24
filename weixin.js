@@ -65,9 +65,6 @@ exports.reply = function* (next) {
             //构建一个reply
             reply = {
                 // type: 'image',
-                type: 'image',
-                title: '回复图片内容',
-                description: '一张美图',
                 MediaId: data.media_id
             }
             console.log(reply);
