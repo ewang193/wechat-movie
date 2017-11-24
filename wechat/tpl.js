@@ -26,7 +26,7 @@ var tpl = heredoc(function(){ /*
         <Title><![CDATA[<%= content.title %>]]></Title>
         <Description><![CDATA[<%= content.description %>]]></Description>
     </Video>
- <%} else if(msgType === 'news') {%>
+ <%} else if(msgType === 'music') {%>
     <Music>
         <Title><![CDATA[TITLE]]></Title>
         <Description><![CDATA[<%= content.DESCRIPTION %>]]></Description>
@@ -34,7 +34,7 @@ var tpl = heredoc(function(){ /*
         <HQMusicUrl><![CDATA[<%= content.hqMusicUrl %>]]></HQMusicUrl>
         <ThumbMediaId><![CDATA[<%= content.ThumbMediaId %>]]></ThumbMediaId>
     </Music>
-  <% } else if(msgType === 'article') {%>
+  <% } else if(msgType === 'news') {%>
     <ArticleCount><%= content.length %></ArticleCount>
     <Articles>
     <% content.forEach(function(item){%>
