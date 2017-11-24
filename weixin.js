@@ -41,13 +41,13 @@ exports.reply = function* (next) {
         }
         else if(content === '4') {
             reply = [{
-                type: 'news',
+                // type: 'news',
                 title: '技术改变世界',
                 description: '只是一个描述而已',
                 picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1441184110/assets/images/Mask-min.png',
                 url: 'https://github.com'
             },{
-                type: 'news',
+                // type: 'news',
                 title: 'Nodejs开发微信',
                 description: '只是一个描述而已',
                 picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1431337192/index-img2_fvzeow.png',
