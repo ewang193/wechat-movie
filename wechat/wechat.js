@@ -159,6 +159,8 @@ Wechat.prototype.uploadMaterial = function(type, material, permanent){
                     form.access_token = data.access_token;
                 }
 
+                console.log('url:', url);
+
                 var options = {
                     method: 'POST',
                     url: url,
@@ -172,6 +174,7 @@ Wechat.prototype.uploadMaterial = function(type, material, permanent){
                 }
 
                 request(options).then(function(response){
+                    console.log('response:', JSON.stringify(response));
                     var _data = response.body;
 
                     if(_data){
