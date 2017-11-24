@@ -5,7 +5,7 @@ var _ = require('lodash');
 var request = Promise.promisify(require('request'));
 var util = require('./util');
 var fs = require('fs');
-var prefix = 'https://api.weixin.qq.com/cgi-bin/';
+var prefix = 'http://api.weixin.qq.com/cgi-bin/';
 var api = {
     accessToken: prefix + 'token?grant_type=client_credential',
     //把临时素材upload的地址配置上去  access_token=ACCESS_TOKEN&type=TYPE   access_token是全局票据，type来标示素材是哪种类型
