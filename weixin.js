@@ -41,7 +41,6 @@ exports.reply = function* (next) {
         }
         else if(content === '4') {
             reply = [{
-                // type: 'news',
                 title: '技术改变世界',
                 description: '只是一个描述而已',
                 picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1441184110/assets/images/Mask-min.png',
@@ -65,7 +64,7 @@ exports.reply = function* (next) {
 
             //构建一个reply
             reply = {
-                // type: 'image',
+                type: 'image',
                 MediaId: data.media_id
             }
         }else if(content === '6') {

@@ -14,7 +14,7 @@ var tpl = heredoc(function(){ /*
  <Content><![CDATA[<%= content %>]]></Content>
  <%} else if(msgType === 'image') {%>
     <Image>
-        <MediaId><![CDATA[<%= content.mediaId%>]]></MediaId>
+        <MediaId><![CDATA[<%= content.mediaId %>]]></MediaId>
     </Image>
  <%} else if(msgType === 'voice') {%>
     <Voice>
@@ -34,7 +34,7 @@ var tpl = heredoc(function(){ /*
         <HQMusicUrl><![CDATA[<%= content.hqMusicUrl %>]]></HQMusicUrl>
         <ThumbMediaId><![CDATA[<%= content.ThumbMediaId %>]]></ThumbMediaId>
     </Music>
-  <% } else if(msgType === 'articles') {%>
+  <% } else if(msgType === 'news') {%>
     <ArticleCount><%= content.length %></ArticleCount>
     <Articles>
     <% content.forEach(function(item){%>
